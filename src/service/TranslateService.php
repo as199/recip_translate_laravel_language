@@ -7,7 +7,9 @@ use Stichoza\GoogleTranslate\GoogleTranslate;
 use function is_dir;
 use function mkdir;
 
-
+/**
+ * @author Ass1999 <atpro0290@gmail.com>
+ */
 class TranslateService
 {
     private ?GoogleTranslate $translator = null;
@@ -62,21 +64,7 @@ class TranslateService
                             $array[$key] = '"' .$this->replaceWords($chaine).'",';
                         }
                     }
-                    $content = str_replace("Array", "", print_r($array, true));
-                    $content = str_replace("[", "'", print_r($content, true));
-                    $content = str_replace("]", "'", print_r($content, true));
-
-                    $content = str_replace("(", "[", print_r($content, true));
-                    $content = str_replace(")", "],", print_r($content, true));
-
-                    $content = str_replace("=> '", '=> "', print_r($content, true));
-
-                    $content = str_replace("',", '",', print_r($content, true));
-
-                    $content = str_replace(":00", '&laquo;', print_r($content, true));
-
-                    $content = str_replace(":01", '&raquo;', print_r($content, true));
-
+                    $content =  $this->replaceInArray($array);
                     $this->makeDirectory($directoryStore.'/'.$lang);
                     $filename = $directoryStore.'/'.$lang."/".substr(strtolower($fichier),0,-4) . ".php";
                     $this->writeInPhpFile($filename,$content);
@@ -89,7 +77,7 @@ class TranslateService
      * create a new directory if not exist
      * @param string $directoryName
      */
-    public function makeDirectory(string $directoryName): void
+    private function makeDirectory(string $directoryName): void
     {
         if(!is_dir($directoryName)){
             mkdir($directoryName);
@@ -100,7 +88,7 @@ class TranslateService
      * @param string $fileName
      * @param string $fileContent
      */
-    public function writeInPhpFile(string $fileName, string $fileContent): void
+    private function writeInPhpFile(string $fileName, string $fileContent): void
     {
         file_put_contents($fileName, '<?php');
         $content = file_get_contents($fileName);
@@ -113,7 +101,7 @@ class TranslateService
      * @param string $chaine
      * @return string
      */
-    public function containsWords(string $chaine):string
+    private function containsWords(string $chaine):string
     {
         if(str_contains($chaine, ":attribute")){
             $chaine = str_replace(":attribute",  ':a', $chaine);
@@ -148,6 +136,9 @@ class TranslateService
         if(str_contains($chaine, ":format")){
            $chaine = str_replace(":format",  ':f', $chaine);
         }
+        if(str_contains($chaine, ":seconds")){
+           $chaine = str_replace(":seconds",  ':s', $chaine);
+        }
 
         return $chaine;
 
@@ -157,7 +148,7 @@ class TranslateService
      * @param string $chaine
      * @return string
      */
-    public function replaceWords(string $chaine):string
+    private function replaceWords(string $chaine):string
     {
         if(str_contains($chaine, ":a")){
             $chaine = str_replace(":a",  ':attribute ', $chaine);
@@ -184,10 +175,35 @@ class TranslateService
             $chaine = str_replace(":d",  ':date', $chaine);
         }
         if(str_contains($chaine, ":f")){
-        $chaine = str_replace(":f",  ':format', $chaine);
-    }
+            $chaine = str_replace(":f",  ':format', $chaine);
+        }
+        if(str_contains($chaine, ":s")){
+            $chaine = str_replace(":s",  ':seconds', $chaine);
+        }
         return $chaine;
 
+    }
+
+    /**
+     * @param array $data
+     * @return array|bool|string
+     */
+    private function replaceInArray(array $data): array|bool|string
+    {
+        $content = str_replace("Array", "", print_r($data, true));
+        $content = str_replace("[", "'", print_r($content, true));
+        $content = str_replace("]", "'", print_r($content, true));
+
+        $content = str_replace("(", "[", print_r($content, true));
+        $content = str_replace(")", "],", print_r($content, true));
+
+        $content = str_replace("=> '", '=> "', print_r($content, true));
+
+        $content = str_replace("',", '",', print_r($content, true));
+
+        $content = str_replace(":00", '&laquo;', print_r($content, true));
+
+        return str_replace(":01", '&raquo;', print_r($content, true));
     }
 
 }
