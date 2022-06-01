@@ -29,7 +29,7 @@ class TranslateService
      * @return void
      * @throws ErrorException
      */
-    public function translateOld(string $directoryName, string $directoryStore, string $from, array $to): void
+    public function translate(string $directoryName, string $directoryStore, string $from, array $to): void
     {
         foreach ($to as $lang) {
             $this->translator->setSource($from);

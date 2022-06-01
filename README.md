@@ -11,8 +11,9 @@
 ## Installation
  install with :
 
- composer require 
+composer require atpro/translate_laravel_language
  
 ## Configuration
 
+create a new object TranslateService and access to the method translate
 
