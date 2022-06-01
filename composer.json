@@ -1,0 +1,32 @@
+{
+    "name": "atpro/translate_laravel_language",
+    "description": "Atpro translate allows you to translate lang files into several languages and thus save time in managing the internationalization of your laravel projects",
+    "license": "MIT",
+    "require": {
+        "stichoza/google-translate-php": "^4.1",
+        "symfony/var-dumper": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Atpro\\Translate\\":"src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Atpro\\Translate\\Tests\\":"tests"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "scripts": {
+        "test": "vendor\\bin\\phpunit",
+        "phpunit": "vendor/bin/phpunit"
+    },
+    "authors": [
+        {
+            "name": "Ass199",
+            "email": "atpro0290@gmail.com"
+        }
+    ]
+}
