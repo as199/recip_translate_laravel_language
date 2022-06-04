@@ -14,6 +14,7 @@ class TranslateService
 {
     private ?GoogleTranslate $translator = null;
 
+    private const EXT ='.php';
 
     public function __construct()
     {
@@ -25,11 +26,11 @@ class TranslateService
      * @param string $directoryName the directory containing the files to be translated
      * @param string $directoryStore the directory containing the files translated
      * @param string $from the start language
-     * @example $tr->translateOld('./lang/en','./lang', $from, $to)
-     * @ $array the associative array
      * @param array $to the arrival language
      * @return void
      * @throws ErrorException
+     * @example $tr->translate('./lang/en','./lang', $from, $to)
+     * @ $array the associative array
      */
     public function translate(string $directoryName, string $directoryStore, string $from, array $to): void
     {
@@ -54,7 +55,7 @@ class TranslateService
                                 }
                                 else{
                                     $chaine =  $this->translator->translate($this->containsWords($item));
-                                    $array[$key][$keyword] = '"' .$this->replaceWords($chaine). '",';
+                                    $array[$key][$keyword] = '"'.$this->replaceWords($chaine).'",';
                                 }
                             }
                         }
@@ -66,7 +67,7 @@ class TranslateService
                     }
                     $content =  $this->replaceInArray($array);
                     $this->makeDirectory($directoryStore.'/'.$lang);
-                    $filename = $directoryStore.'/'.$lang."/".substr(strtolower($fichier),0,-4) . ".php";
+                    $filename = $directoryStore.'/'.$lang."/".substr(strtolower($fichier),0,-4) . self::EXT;
                     $this->writeInPhpFile($filename,$content);
                 }
             }
@@ -77,7 +78,7 @@ class TranslateService
      * create a new directory if not exist
      * @param string $directoryName
      */
-    private function makeDirectory(string $directoryName): void
+    public function makeDirectory(string $directoryName): void
     {
         if(!is_dir($directoryName)){
             mkdir($directoryName);
@@ -101,7 +102,7 @@ class TranslateService
      * @param string $chaine
      * @return string
      */
-    private function containsWords(string $chaine):string
+    public function containsWords(string $chaine):string
     {
         if(str_contains($chaine, ":attribute")){
             $chaine = str_replace(":attribute",  ':a', $chaine);
@@ -148,7 +149,7 @@ class TranslateService
      * @param string $chaine
      * @return string
      */
-    private function replaceWords(string $chaine):string
+    public function replaceWords(string $chaine):string
     {
         if(str_contains($chaine, ":a")){
             $chaine = str_replace(":a",  ':attribute ', $chaine);

@@ -1,3 +1,4 @@
 vendor
 index.php
 lang
+.phpunit.result.cache
