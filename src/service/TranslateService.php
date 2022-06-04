@@ -8,7 +8,7 @@ use function is_dir;
 use function mkdir;
 
 /**
- * @author Ass1999 <atpro0290@gmail.com>
+ * @author Ass199 <atpro0290@gmail.com>
  */
 class TranslateService
 {
